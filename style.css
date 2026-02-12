@@ -62,8 +62,13 @@ body {
 }
 
 @keyframes float {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(50px, 50px);
+    }
 }
 
 /* Layout */
@@ -82,16 +87,23 @@ header {
     padding: 10px 0;
 }
 
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
 h1 {
     font-size: 1.8rem;
     font-weight: 600;
     background: linear-gradient(to right, #fff, #94a3b8);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 /* Glass Components */
-.glass-panel, .glass-card {
+.glass-panel,
+.glass-card {
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
@@ -152,7 +164,8 @@ button:hover {
 .primary-btn {
     background: var(--primary-color);
     color: white;
-    height: 42px; /* Match input height */
+    height: 42px;
+    /* Match input height */
 }
 
 .glass-btn {
@@ -171,14 +184,22 @@ button:hover {
 @media (min-width: 900px) {
     .dashboard-grid {
         grid-template-columns: 2fr 1fr;
-        grid-template-areas: 
+        grid-template-areas:
             "summary summary"
             "table chart";
     }
-    
-    .summary-cards { grid-area: summary; }
-    .portfolio-section { grid-area: table; }
-    .chart-section { grid-area: chart; }
+
+    .summary-cards {
+        grid-area: summary;
+    }
+
+    .portfolio-section {
+        grid-area: table;
+    }
+
+    .chart-section {
+        grid-area: chart;
+    }
 }
 
 /* Summary Cards */
@@ -208,9 +229,20 @@ button:hover {
     margin-left: 5px;
 }
 
-.positive { color: var(--success-color); background: rgba(16, 185, 129, 0.1); }
-.negative { color: var(--danger-color); background: rgba(239, 68, 68, 0.1); }
-.neutral { color: var(--neutral-color); background: rgba(148, 163, 184, 0.1); }
+.positive {
+    color: var(--success-color);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.negative {
+    color: var(--danger-color);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.neutral {
+    color: var(--neutral-color);
+    background: rgba(148, 163, 184, 0.1);
+}
 
 /* Table */
 .table-container {
@@ -223,7 +255,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid var(--glass-border);

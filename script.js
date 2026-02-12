@@ -267,3 +267,66 @@ function renderChart(labels, data) {
     chartTitle.style.opacity = '0';
     setTimeout(() => chartTitle.style.opacity = '1', 100);
 }
+
+// Data Management (Import/Export)
+const exportBtn = document.getElementById('export-btn');
+const importBtn = document.getElementById('import-btn');
+const importInput = document.getElementById('import-input');
+
+exportBtn.addEventListener('click', () => {
+    if (portfolio.length === 0) {
+        alert('No data to export!');
+        return;
+    }
+    const dataStr = JSON.stringify(portfolio, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `portfolio_backup_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
+
+importBtn.addEventListener('click', () => {
+    importInput.click();
+});
+
+importInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        try {
+            const importedData = JSON.parse(event.target.result);
+            if (Array.isArray(importedData)) {
+                // Validate structure roughly
+                const valid = importedData.every(item => item.symbol && item.qty && item.cost);
+                if (valid) {
+                    if (confirm(`Replace current portfolio with ${importedData.length} items from backup?`)) {
+                        portfolio = importedData;
+                        saveData();
+                        renderTable();
+                        updateSummary();
+                        fetchAllData(); // Refresh prices for new data
+                        alert('Portfolio restored successfully!');
+                    }
+                } else {
+                    alert('Invalid file format: Missing required fields.');
+                }
+            } else {
+                alert('Invalid file format: Not a list of stocks.');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Error parsing JSON file.');
+        }
+        // Reset input so same file can be selected again
+        importInput.value = '';
+    };
+    reader.readAsText(file);
+});
